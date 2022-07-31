@@ -1,34 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentQuote, setCurrentQuote] = useState({
+    text: "Sholat tepat waktu!",
+    author: "Sami Kalammallah",
+  });
+
+  const quoteToShare = currentQuote.text.replaceAll(" ", "%20");
+  const twitterIntentLink = `https://twitter.com/intent/tweet?hashtags=quotes&related=samikalammallah&text=%22${quoteToShare}%22%20-${currentQuote.author}`;
+
+  const handleOnClick = () => {
+    const randomResult = {};
+
+    setCurrentQuote({
+      text: randomResult.text,
+      author: randomResult.author,
+    });
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <>
+      <div id="quote-box">
+        <div className="quote-text">
+          <h1 id="text">
+            <span className="quote-indicator">"</span>
+            {currentQuote.text}
+            <span className="quote-indicator">"</span>
+          </h1>
+          <h2 id="author">-{currentQuote.author}</h2>
+        </div>
+
+        <div className="quote-btn">
+          <a href={twitterIntentLink} target="_blank" id="tweet-quote">
+            SHARE
+          </a>
+
+          <button id="new-quote" onClick={handleOnClick}>
+            New Quote
+          </button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+      <h3 className="footer">
+        Create on late night by{" "}
+        <a href="https://kalammallah.vercel.app">Sami Kalammallah</a>{" "}
+      </h3>
+    </>
+  );
 }
 
-export default App
+export default App;
