@@ -1,23 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import quotes from "./data";
+import randomizer from "./randomizer";
 
 function App() {
-  const [currentQuote, setCurrentQuote] = useState({
-    text: "Sholat tepat waktu!",
-    author: "Sami Kalammallah",
-  });
+  const [currentQuote, setCurrentQuote] = useState({});
+  const [quoteToShare, setQuoteToShare] = useState("");
 
-  const quoteToShare = currentQuote.text.replaceAll(" ", "%20");
   const twitterIntentLink = `https://twitter.com/intent/tweet?hashtags=quotes&related=samikalammallah&text=%22${quoteToShare}%22%20-${currentQuote.author}`;
+  const randomNumber = randomizer(quotes);
 
   const handleOnClick = () => {
-    const randomResult = {};
+    const randomResult = quotes[randomNumber];
 
     setCurrentQuote({
       text: randomResult.text,
       author: randomResult.author,
     });
   };
+
+  useEffect(() => setCurrentQuote(quotes[randomNumber]), []);
+
+  useEffect(
+    () => setQuoteToShare(currentQuote.text?.replaceAll(" ", "%20")),
+    [currentQuote]
+  );
 
   return (
     <>
